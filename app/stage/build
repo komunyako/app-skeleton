@@ -1,0 +1,56 @@
+#!/bin/sh
+set -e
+IFS=$'\n'
+
+echo "Build stage"
+echo " "
+
+env -i UID=$UID $(printenv | grep '^CI_') bash -c '
+  set -a;
+  source .env.dist;
+
+  export COMPOSE_FILE=docker-compose.yaml:docker-compose.stage.yaml
+  export COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME-$CI_COMMIT_BRANCH
+  export DOCKER_UID=$UID
+
+  export APP_ENV=prod
+  export APP_DEBUG=0
+  export APP_SECRET=$(cat /dev/urandom | tr -dc "a-zA-Z0-9" | fold -w 32 | head -n 1)
+
+  unset UID
+
+  (printenv | grep -v "^_=" | sort)
+' > .env
+
+cat .env
+
+echo " "
+
+mkdir -p /var/www/storage/.composer/cache
+mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/uploads
+mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/cache
+
+docker-compose run --rm --no-deps -T frontend bash -c "npm install --no-save && npm run build"
+docker-compose up -d --build --remove-orphans --force-recreate
+
+export HTTP_PORT=`docker-compose port varnish 80 | grep -oE '[0-9]+$'`
+export DOMAIN_NAME=$CI_ENVIRONMENT_DOMAIN
+export MAILHOG_HTTP_PORT=`docker-compose port mailhog 8025 | grep -oE '[0-9]+$'`
+export MAILHOG_DOMAIN_NAME=mail-$CI_ENVIRONMENT_DOMAIN
+
+envsubst '
+  $HTTP_PORT
+  $MAILHOG_HTTP_PORT
+  $DOMAIN_NAME
+  $MAILHOG_DOMAIN_NAME
+' < ./app/stage/nginx.conf > ./nginx.conf
+
+touch /var/control/status/restart
+
+echo " "
+
+docker-compose exec -T backend composer install
+
+echo " "
+echo "App url: https://$DOMAIN_NAME"
+echo "Mail url: https://$MAILHOG_DOMAIN_NAME"

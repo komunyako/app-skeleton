@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+    varnish:
+        restart: unless-stopped
+        ports:
+            - 80
+
+    nginx:
+        restart: unless-stopped
+        volumes:
+            - /var/www/storage/$CI_PROJECT_NAME/public/uploads:/app/public/uploads:cached
+            - /var/www/storage/$CI_PROJECT_NAME/public/cache:/app/public/cache:cached
+
+    backend:
+        restart: unless-stopped
+        volumes:
+            - /var/www/storage/$CI_PROJECT_NAME/public/uploads:/app/public/uploads:cached
+            - /var/www/storage/$CI_PROJECT_NAME/public/cache:/app/public/cache:cached
+            - /var/www/storage/.composer/cache:/.composer/cache:cached
+
+    mailhog:
+        image: mailhog/mailhog
+        restart: unless-stopped
+        ports:
+            - 8025
+
+    imgproxy:
+        restart: unless-stopped
+        volumes:
+            - /var/www/storage/$CI_PROJECT_NAME/public/uploads:/app/uploads:cached
+            - /var/www/storage/$CI_PROJECT_NAME/public/cache:/app/cache:cached
