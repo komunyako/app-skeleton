@@ -12,6 +12,13 @@
   `docker-compose exec backend composer install`
      
 ---  
+
+### Настройка рабочей среды
+
+- [PhpStorm (backend)](app/docs/php-storm-backend.md) 
+- [PhpStorm (frontend)](app/docs/php-storm-frontend.md) 
+
+---
   
 ### Работа с локальной базой данных
 1. В файле .env замените переменные 
