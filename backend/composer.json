@@ -13,6 +13,7 @@
         "creonit/page-bundle": "^1.0",
         "creonit/propel-cache-behavior": "^0.1.0",
         "creonit/propel-schema-converter-bundle": "^0.2.5",
+        "creonit/rest-bundle": "^1.0",
         "creonit/storage-bundle": "^1.0",
         "doctrine/annotations": "^1.0",
         "gregwar/image": "^2.0",

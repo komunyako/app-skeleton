@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "af6c69a8876fdf3cc10c9296cd7739c8",
+    "content-hash": "9b9c772256c47c1522cbc8062d594b6f",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -585,16 +585,16 @@
         },
         {
             "name": "creonit/rest-bundle",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/creonit-dev/RestBundle.git",
-                "reference": "70b1b4eb9791ae1473f71d8b6c3daaa41d840cc2"
+                "reference": "29426015c53b40307f981f2d98a1e5e5800727d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/creonit-dev/RestBundle/zipball/70b1b4eb9791ae1473f71d8b6c3daaa41d840cc2",
-                "reference": "70b1b4eb9791ae1473f71d8b6c3daaa41d840cc2",
+                "url": "https://api.github.com/repos/creonit-dev/RestBundle/zipball/29426015c53b40307f981f2d98a1e5e5800727d8",
+                "reference": "29426015c53b40307f981f2d98a1e5e5800727d8",
                 "shasum": ""
             },
             "require": {
@@ -615,7 +615,7 @@
                 "rest-api",
                 "symfony"
             ],
-            "time": "2020-05-18T06:11:05+00:00"
+            "time": "2020-11-23T12:53:03+00:00"
         },
         {
             "name": "creonit/storage-bundle",
