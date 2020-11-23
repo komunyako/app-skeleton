@@ -1,0 +1,66 @@
+.is-layer-locked {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.layer-blackout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .75);
+    transform: translate3d(0, 0, 0);
+    transition: opacity .3s ease;
+}
+
+.layer-blackout_hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.layer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 100%;
+    pointer-events: none;
+}
+
+.layer-blackout,
+.layer {
+    z-index: 100;
+}
+
+.layer_back {
+    position: fixed;
+    transition: none !important;
+    animation: none !important;
+}
+
+.layer_hidden {
+    display: none;
+}
+
+.layer-container {
+    position: relative;
+    pointer-events: auto;
+}
+
+.layer.layer-leave-active .layer-container,
+.layer_back .layer-container {
+    pointer-events: none;
+}
+
+.layer.layer-enter-active,
+.layer.layer-leave-active {
+    position: fixed;
+}
