@@ -11,7 +11,7 @@ env -i UID=$UID $(printenv | grep '^CI_') bash -c '
 
   export COMPOSE_FILE=docker-compose.yaml:docker-compose.stage.yaml
   export COMPOSE_PROJECT_NAME=$COMPOSE_PROJECT_NAME-$CI_COMMIT_BRANCH
-  export DOCKER_UID=$UID
+  export DOCKER_USER="$UID:$UID"
 
   export APP_ENV=prod
   export APP_DEBUG=0
