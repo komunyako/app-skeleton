@@ -26,6 +26,7 @@ cat .env
 
 echo " "
 
+mkdir -p ./backend/var/nuxt
 mkdir -p /var/www/storage/.composer/cache
 mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/uploads
 mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/cache
