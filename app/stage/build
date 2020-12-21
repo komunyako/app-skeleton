@@ -31,8 +31,11 @@ mkdir -p /var/www/storage/.composer/cache
 mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/uploads
 mkdir -p /var/www/storage/$CI_PROJECT_NAME/public/cache
 
+docker-compose build frontend
 docker-compose run --rm --no-deps -T frontend bash -c "npm install --no-save && npm run build"
 docker-compose up -d --build --remove-orphans --force-recreate
+
+sleep 5
 
 export HTTP_PORT=`docker-compose port varnish 80 | grep -oE '[0-9]+$'`
 export DOMAIN_NAME=$CI_ENVIRONMENT_DOMAIN
