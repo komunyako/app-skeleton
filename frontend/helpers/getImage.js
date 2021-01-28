@@ -1,4 +1,4 @@
-export function getImage(imageUrl, options) {
+export default function getImage(imageUrl, options) {
     imageUrl = imageUrl.match(/^https?:\/\//) ? imageUrl : ('local://' + imageUrl);
 
     return [
