@@ -24,9 +24,11 @@ sub vcl_recv {
         set req.backend_hint = imgproxy;
         set req.url = regsub(req.url, "^/_image", "");
         return (hash);
-    } else if (req.url ~ "^/_tailwind/") {
+    }
+
+    if (req.url ~ "^/_tailwind/") {
         set req.backend_hint = frontend;
-        return (hash);
+        return (pipe);
     }
 
     if (req.http.upgrade ~ "(?i)websocket") {
