@@ -3,13 +3,21 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Context } from '@nuxt/types';
+import { PageData } from '~/types/api/page';
+
 export default {
-    validate({ store }) {
+    validate(context: Context): boolean {
+        const { store } = context;
+
         return !!store.state.page.data.id;
     },
-    async asyncData({ $axios, store, error }) {
-        const data = {};
+    async asyncData(context: Context): void {
+        const { $axios, store, error } = context;
+        const data: {page: PageData} = {
+            page: null
+        };
         data.page = store.state.page.data;
 
         if (data.page.content && data.page.content.id) {
@@ -17,7 +25,7 @@ export default {
         }
 
         if (!data.page.content) {
-            return error();
+            return error(null);
         }
 
         return data;

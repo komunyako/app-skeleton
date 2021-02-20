@@ -11,10 +11,10 @@ function validate(rule, value) {
     return true;
 }
 
-export default async function validateForm(formData, formConstraints, fieldErrors) {
+export default function validateForm(formData, formConstraints, fieldErrors) {
     let hasError = false;
 
-    for (let fieldName in formConstraints) {
+    for (const fieldName in formConstraints) {
         if (Object.prototype.hasOwnProperty.call(formConstraints, fieldName)) {
             const constraints = formConstraints[fieldName];
             const value = formData[fieldName];
@@ -32,7 +32,7 @@ export default async function validateForm(formData, formConstraints, fieldError
     }
 
     if (hasError) {
-        throw new Error('');
+        throw new Error('Ошибка валидации');
     }
 
     return true;

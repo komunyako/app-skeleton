@@ -3,16 +3,16 @@ function getType(any) {
 }
 
 function toName(path) {
-    let array = path.map((part) => `[${ part }]`);
+    const array = path.map(part => `[${ part }]`);
     array[0] = path[0];
 
     return array.join('');
 }
 
 function appendToForm(form, path, node, filename) {
-    let name = toName(path);
+    const name = toName(path);
 
-    if (typeof filename == 'undefined') {
+    if (typeof filename === 'undefined') {
         form.append(name, node);
     } else {
         form.append(name, node, filename);
@@ -33,7 +33,7 @@ function check(node) {
 }
 
 function iterator(form, object, parentPath) {
-    for (let name in object) {
+    for (const name in object) {
         const node = object[name];
         const path = parentPath.slice();
         path.push(name);
@@ -63,7 +63,7 @@ function iterator(form, object, parentPath) {
 }
 
 export default function createFormData(data, prefix = []) {
-    const form = new FormData;
+    const form = new FormData();
     iterator(form, data, prefix);
 
     return form;

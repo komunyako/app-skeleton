@@ -1,12 +1,10 @@
-const path = require('path');
+import { resolve as _resolve } from 'path';
 
-module.exports = {
-    resolve: {
-        extensions: ['.js', '.json', '.vue', '.ts'],
-        root: path.resolve(__dirname),
-        alias: {
-            '@': path.resolve(__dirname),
-            '~': path.resolve(__dirname)
-        }
+export const resolve = {
+    extensions: ['.js', '.json', '.vue', '.ts'],
+    root: _resolve(__dirname),
+    alias: {
+        '@': _resolve(__dirname),
+        '~': _resolve(__dirname)
     }
 };

@@ -4,7 +4,7 @@ export default function sleep(ms) {
         let resolvePromise;
         let resolved = false;
 
-        const promise = new Promise(resolve => {
+        const promise = new Promise((resolve) => {
             resolvePromise = resolve;
             timer = setTimeout(() => {
                 resolved = true;

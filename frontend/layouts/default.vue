@@ -6,10 +6,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import '@/assets/styles/layout.css';
 
-export default {
-};
+export default Vue.extend({
+});
 </script>
 

@@ -30,7 +30,7 @@ export default function({ store }, inject) {
             }
         },
         actions: {
-            async loadItem({ state, commit }, { key, locale, context }) {
+            loadItem({ state, commit }, { key, locale, context }) {
                 const hash = buildHash(key, locale, context);
 
                 if (hash in state.items) {
@@ -41,19 +41,21 @@ export default function({ store }, inject) {
                     return loadMap[hash];
                 }
 
-                return loadMap[hash] = this.$axios
+                loadMap[hash] = this.$axios
                     .$get('/api/storage/' + key, {
                         params: {
                             locale,
                             context
                         }
                     })
-                    .then(data => {
+                    .then((data) => {
                         commit('setItem', { key, locale, context, data });
 
                         return data;
                     })
                     .finally(() => delete loadMap[hash]);
+
+                return loadMap[hash];
             }
         }
     });
@@ -76,7 +78,11 @@ export default function({ store }, inject) {
 
             if (Array.isArray(items)) {
                 const _items = {};
-                items.forEach(item => _items[item] = item);
+                items.forEach((item) => {
+                    _items[item] = item;
+
+                    return _items[item];
+                });
                 items = _items;
             }
 
@@ -89,7 +95,7 @@ export default function({ store }, inject) {
             const computed = {};
             const promises = [];
 
-            properties.forEach(property => {
+            properties.forEach((property) => {
                 const item = items[property];
                 let key;
                 let defaultValue;
