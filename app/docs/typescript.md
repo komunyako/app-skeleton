@@ -1,38 +1,109 @@
 # TypeScript
-В сборку теперь подключён TypeScript.  
+В сборку теперь подключён TypeScript.
 Все скрипты должны писаться только на нём, без исключений. Существующие скрипты тоже будут адаптированы под него в следующих итерациях.
 
 
 ## Как писать код
-### Объявлять компоненты нужно через `Vue.extend()`
-Так нужно чтобы TypeScript мог корректно работать с контекстом. Без этого `this` будет недоступно.
+Мы использовать будем классовый подход. У него есть свои нюансы, но это самый красивый и удобный формат.
 
-```html
-<script lang="ts">
-import Vue from 'vue';
+Читайте:
+- https://vuejs.org/v2/guide/typescript.html#Class-Style-Vue-Components
+- https://class-component.vuejs.org/
 
-export default Vue.extend({
-    data() {
-        return {};
-    }
-});
-</script>
+### Объявление компонента через декоратор `Component`
+Так как каждый компонент это класс, нам надо сообщить от чего он наследуется.
+Для этого мы пишем `extends Vue`. Но этого недостаточно для корретной работы, поэтому указываем для класса декоратор `@Component`. Всё, теперь наш компонент готов к работе!
+Обратите внимание что коструктор Vue нужно импортировать напрямую из пакета с декораторами, чтобы сократить количество импортов.
+```ts
+import { Vue, Component } from 'nuxt-property-decorator';
+
+@Component
+export default class TestComponent extends Vue {
+}
 ```
 
 Читайте:
-- https://vuejs.org/v2/guide/typescript.html#Basic-Usage
+- https://www.typescriptlang.org/docs/handbook/decorators.html
+- https://github.com/kaorun343/vue-property-decorator
+- https://github.com/nuxt-community/nuxt-property-decorator
+
+### Все хуки и настройки необходимо описывать в параметре декоратора `Component`
+Так как мы наследуемся напрямую от коструктора, в нём не содержится информация об опциях компонента. Но декоратор знает о них:
+```ts
+@Component({
+    components: [],
+    mounted(this: TestComponent) {}
+    created(this: TestComponent) {}
+    ...
+})
+export default class TestComponent extends Vue {}
+```
+
+Чтобы работали тайпинги, необходимо указать корректный контекст для хуков `mounted(this: TestComponent)` используя созданный нами класс. Без этого у вас будут ошибки что необходимых полей не будет в `this`.
+
+### Нужно писать типы и интерфейсы для результата `asyncData`
+```ts
+interface PageInfo {
+    title: string
+}
+
+interface ComponentData {
+    pageData: PageInfo|undefined
+}
+
+@Component({
+    async asyncData(): Promise<ComponentData> {
+        const pageData: PageInfo = await Promise.resolve({
+            title: 'Page Title'
+        });
+
+        return {
+            pageData
+        };
+    },
+    mounted(this: TestComponent) {
+        console.log(this.title);
+    }
+})
+export default class TestComponent extends Vue {
+    @Prop()
+    readonly title: string|undefined;
+
+    pageData: ComponentData['pageData'];
+}
+```
+
+### Что может пойти не так
+#### `TS2564: Property 'title' has no initializer and is not definitely assigned in the constructor.`
+```ts
+@Prop() title: string
+```
+
+Так происходит потому что свойство изначально не имеет значения. Для фикса есть два варианта:
+```ts
+class Test {
+    @Prop({ required: true })
+    readonly requiredTitle!: string
+
+    @Prop()
+    readonly optionalString?: string
+}
+```
+`requiredTitle!:` восклицательный знак говорит что объявленный тип не существует при компиляции, и не обращай внимания на него. *Обязательно* такие пропы должны быть `required: true` или `default: 'Дефолтное значение'`.
+Если проп необязательный, то просто ставьте вопрос после имени свойства
 
 ### Соблюдать все правила типизации
-Важно чтобы наш код был самодокументируемым. Это значит что надо писать типы для любых функций и переменных.  
+Важно чтобы наш код был самодокументируемым. Это значит что надо писать типы для любых функций и переменных.
 
-Читайте: 
+Читайте:
 - https://www.typescriptlang.org/docs/handbook/intro.html
 - https://vuejs.org/v2/guide/typescript.html
+- https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-7.html#definite-assignment-assertions
 
 ### Кастомные плагины тоже необходмио типизировать
 Не у всех есть встроенные типы и поэтому установленный плагин может вызывать ошибки при использовании.
 Например, у нас есть `Layer` для модалок который добавляет свойство `$layer` к Vue. Чтобы это работало, необходимо описать эту аугментацию.
-```typescript
+```ts
 import Vue from 'vue';
 
 interface LayerInterface {
@@ -48,7 +119,7 @@ declare module 'vue/types/vue' {
         $layer: LayerInterface
     }
 }
-``` 
+```
 
 Читайте:
 - https://vuejs.org/v2/guide/typescript.html#Augmenting-Types-for-Use-with-Plugins
@@ -56,7 +127,7 @@ declare module 'vue/types/vue' {
 ## Складываем типы в папку `./fontend/types`
 Допустим, вы описываете типы данных что приходят с бэка. Чтобы все знали и понимали что происходит, а так же могли воспользоваться наработками, эти описания не должны находится в рандомом файле.
 
-## Типы для контекста Nuxt 
+## Типы для контекста Nuxt
 Ни один из вариантов ниже не подключает подсказки по методам. Хоть даже во втором случае и интерфейс вроде верный. Надо разбираться от чего так.
 ```
 1. async asyncData({ $axios, store, error }) {}
@@ -64,7 +135,7 @@ declare module 'vue/types/vue' {
 ```
 
 Только один вариант работает:
-```typescript
+```ts
 import {Context} from '@nuxt/types';
 // Без указания типа не сработает, да и будет ругаться на этом
 asyncData(context: Context) {
@@ -77,7 +148,7 @@ asyncData(context: Context) {
 
 ## Что нужно знать
 ### Не все редакторы корректно могут загружать типы
-В VSCode, например, не работают подсказки по контексту Vue.  
+В VSCode, например, не работают подсказки по контексту Vue.
 Зато точно всё работает в WebStorm или PhpStorm, они протестированы. Так же должны работать и другие IDE, сообщите если работаете на такой чтобы он попал в документацию.
 
 

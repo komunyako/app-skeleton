@@ -1,5 +1,5 @@
-import type { NuxtConfig } from '@nuxt/types';
-import type { MetaInfo } from 'vue-meta';
+import { NuxtConfig } from '@nuxt/types';
+import { MetaInfo } from 'vue-meta';
 
 
 const config: NuxtConfig = {
@@ -31,7 +31,7 @@ const config: NuxtConfig = {
     ** See https://nuxtjs.org/api/configuration-head
     */
     head() {
-        const meta: MetaInfo['meta'][] = [];
+        // const meta: MetaInfo['meta'][] = [];
 
         if (process.server) {
             // meta.push({ hid: 'og:image', name: 'og:image', content: `//${ this.context.req.headers.host }/social.jpg` });
@@ -42,8 +42,8 @@ const config: NuxtConfig = {
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                ...this.$store.getters['page/metaInfo'],
-                ...meta
+                ...this.$store.getters['page/metaInfo']
+                // ...meta
             ],
             link: [
                 { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -61,8 +61,8 @@ const config: NuxtConfig = {
     ** https://nuxtjs.org/guide/plugins
     */
     plugins: [
-        '~/plugins/page.js',
-        '~/plugins/axios.js',
+        '~/plugins/page.ts',
+        '~/plugins/axios.ts',
         '~/plugins/layer/layer.client.js',
         '~/plugins/pluralize.js',
         '~/plugins/storage.js',
@@ -82,8 +82,8 @@ const config: NuxtConfig = {
     ** Nuxt.js dev-modules
     */
     buildModules: [
-        // Doc: https://github.com/nuxt-community/eslint-module
         '@nuxt/typescript-build',
+        // Doc: https://github.com/nuxt-community/eslint-module
         '@nuxtjs/eslint-module',
         '@nuxtjs/tailwindcss',
         '@nuxtjs/svg'
@@ -92,7 +92,6 @@ const config: NuxtConfig = {
     /*
     ** Nuxt.js modules
     */
-
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',

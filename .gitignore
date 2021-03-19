@@ -5,3 +5,5 @@ thumbs.db
 /*.sublime-workspace
 /.env
 /nginx.conf
+/vetur.config.js
+.vscode

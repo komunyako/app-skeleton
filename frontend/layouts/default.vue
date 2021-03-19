@@ -7,10 +7,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 import '@/assets/styles/layout.css';
 
-export default Vue.extend({
-});
+export default {};
 </script>
 

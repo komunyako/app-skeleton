@@ -9,6 +9,9 @@
             Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
+        <div class="mb-8">
+            <TypescriptLearningTemplate title="Какой-то заголовок установленный пропсом" />
+        </div>
         <ul class="mb-8">
             <li>
                 <button @click.prevent="$layer.alert()">
@@ -22,18 +25,24 @@
             </li>
         </ul>
         <div>
-            <a href="/error-page/">Go to error page</a>
+            <NuxtLink to="/error-page/">
+                Go to error page
+            </NuxtLink>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component } from 'nuxt-property-decorator';
+import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
 
-export default Vue.extend({
-    data() {
-        return {};
+@Component({
+    // Чтобы работали подсказки пропов в шаблоне, необходимо руками указывать импорт компонента
+    // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
+    components: {
+        TypescriptLearningTemplate
     }
-});
+})
+export default class IndexPage extends Vue {
+}
 </script>
-

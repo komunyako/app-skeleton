@@ -1,53 +1,73 @@
-import { Module } from 'vuex';
+import { Module, VuexMutation, VuexModule, VuexAction } from 'nuxt-property-decorator';
+import { MetaPropertyCharset, MetaPropertyEquiv, MetaPropertyName, MetaPropertyMicrodata, MetaPropertyProperty } from 'vue-meta';
 
-type PageState = {
-    data: Record<string, any>
-    raw: Record<string, any>
+export interface PageState {
+    // Поля стейта указываем с нижним подчёркиванием, чтобы названия не пересекались с экшенами и геттерами
+    // Так же это сигнализирует что эти поля не являются публичными
+    _data: Record<string, any>
+    _raw: Record<string, any>
 }
 
-const module: Module<any, any> = {
-    state: {
-        data: {},
-        raw: {}
-    } as PageState,
+@Module({
+    name: 'page',
+    stateFactory: true,
+    namespaced: true
+})
+export default class PageStore extends VuexModule implements PageState {
+    _data: PageState['_data'] = {};
+    _raw: PageState['_raw'] = {};
 
-    actions: {
-        reset({ commit }):void {
-            commit('reset');
-        },
-        update({ commit }, payload: PageState['raw']):void {
-            commit('update', payload);
-        }
-    },
-
-    getters: {
-        title: (state: PageState) => state.data.id ? state.data.title : '',
-        metaTitle: (state: PageState) => state.data.id ? (state.data.meta.title || state.data.title) : '',
-        metaInfo: (state: PageState) => {
-            if (!state.data.id) {
-                return [];
-            }
-
-            return [
-                { hid: 'description', name: 'description', content: state.data.meta.description || '' },
-                { hid: 'keywords', name: 'keywords', content: state.data.meta.keywords || '' },
-                { hid: 'og:title', name: 'og:title', content: state.data.meta.title || '' },
-                { hid: 'og:description', name: 'og:description', content: (state.data.meta.description || '').replace(/<\/?[^>]+(>|$)/g, '') }
-            ];
-        }
-    },
-
-    mutations: {
-        update(state: PageState, payload: PageState['raw']): void {
-            state.raw = payload;
-        },
-        reset(state: PageState): void {
-            state.raw = {};
-        },
-        fix(state: PageState): void {
-            state.data = state.raw;
-        }
+    @VuexMutation
+    // Мутиации тоже указываем с `_`, чтобы не пересекалось с экшенами и геттерами
+    // Не забываем указывать что это приватное поле `private`, чтобы извне не было возможности поменять данные
+    private _update(payload: PageState['_raw']): void {
+        this._raw = payload;
     }
-};
 
-export default module;
+    @VuexMutation
+    private _reset(): void {
+        this._raw = {};
+    }
+
+    @VuexMutation
+    private _fix(): void {
+        this._data = this._raw;
+    }
+
+    @VuexAction
+    update(payload: PageState['_raw']): void {
+        this.context.commit('_update', payload);
+    }
+
+    @VuexAction
+    reset(): void {
+        this.context.commit('_reset');
+    }
+
+    @VuexAction
+    fix(): void {
+        this.context.commit('_fix');
+    }
+
+
+    get title(): string {
+        return this._data.id ? this._data.title : '';
+    }
+
+    get metaTitle(): string {
+        return this._data.id ? (this._data.meta.title || this._data.title) : '';
+    }
+
+    get metaInfo(): (MetaPropertyCharset | MetaPropertyEquiv | MetaPropertyName | MetaPropertyMicrodata | MetaPropertyProperty)[] {
+        if (!this._data.id) {
+            return [];
+        }
+
+        return [
+            { hid: 'description', name: 'description', content: this._data.meta.description || '' },
+            { hid: 'keywords', name: 'keywords', content: this._data.meta.keywords || '' },
+            { hid: 'og:title', name: 'og:title', content: this._data.meta.title || '' },
+            { hid: 'og:description', name: 'og:description', content: (this._data.meta.description || '').replace(/<\/?[^>]+(>|$)/g, '') }
+        ];
+    }
+}

@@ -5,7 +5,7 @@
             <div v-if="description" v-html="description"></div>
             <div v-if="message" v-html="message"></div>
             <div>
-                <button ref="button" type="button" @click.prevent="$emit('close', true)">
+                <button ref="acceptActionElement" type="button" @click.prevent="$emit('close', true)">
                     <span>{{ acceptButtonCaption }}</span>
                 </button>
                 <button type="button" @click.prevent="$emit('close')">
@@ -17,32 +17,30 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component, Ref, Prop } from 'nuxt-property-decorator';
 
-export default Vue.extend({
-    props: {
-        title: {
-            type: String,
-            default: 'Подтверждение'
-        },
-        description: {
-            type: String
-        },
-        message: {
-            type: String,
-            default: 'Вы уверены, что хотите это сделать?'
-        },
-        acceptButtonCaption: {
-            type: String,
-            default: 'Да'
-        },
-        declineButtonCaption: {
-            type: String,
-            default: 'Нет'
-        }
-    },
-    mounted() {
-        this.$refs.button.focus();
+@Component({
+    mounted(this: ConfirmLayer) {
+        this.acceptActionElement.focus();
     }
-});
+})
+export default class ConfirmLayer extends Vue {
+    @Prop({ type: String, default: 'Подтверждение' })
+    readonly title!: string;
+
+    @Prop({ type: String })
+    readonly description?: string;
+
+    @Prop({ type: String })
+    readonly message?: string;
+
+    @Prop({ type: String, default: 'Да' })
+    readonly acceptButtonCaption!: string;
+
+    @Prop({ type: String, default: 'Нет' })
+    readonly declineButtonCaption!: string;
+
+    @Ref()
+    readonly acceptActionElement!: HTMLButtonElement;
+}
 </script>

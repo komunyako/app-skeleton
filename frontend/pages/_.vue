@@ -1,39 +1,37 @@
 <template>
     <div>
+        {{ page.content }}
     </div>
 </template>
 
 <script lang="ts">
-import { Context } from '@nuxt/types';
-import { PageData } from '~/types/api/page';
+import { Vue, Component } from 'nuxt-property-decorator';
+import { PageData } from '~/models/Page';
+import PageService from '~/services/Page';
 
-export default {
-    validate(context: Context): boolean {
-        const { store } = context;
 
-        return !!store.state.page.data.id;
-    },
-    async asyncData(context: Context): void {
-        const { $axios, store, error } = context;
-        const data: {page: PageData} = {
-            page: null
+interface ComponentData {
+    page: PageData | null
+}
+
+@Component({
+    async asyncData({ error, store }): Promise<ComponentData | void> {
+        const data = {
+            page: store.state.page.data
         };
-        data.page = store.state.page.data;
 
-        if (data.page.content && data.page.content.id) {
-            data.page.content = await $axios.$get('/api/contents/' + data.page.content.id);
+        if (data.page?.content?.id) {
+            data.page.content = await PageService.getContent(data.page.content.id);
         }
 
-        if (!data.page.content) {
-            return error(null);
+        if (!data.page?.content) {
+            return error({ statusCode: 404 });
         }
 
         return data;
-    },
-    data() {
-        return {
-            page: {}
-        };
     }
-};
+})
+export default class BasicPage extends Vue implements ComponentData {
+    page: ComponentData['page'] = null;
+}
 </script>

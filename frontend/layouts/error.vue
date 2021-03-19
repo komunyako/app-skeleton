@@ -31,25 +31,26 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { NuxtError } from '@nuxt/types';
+import { Vue, Component, Prop } from 'nuxt-property-decorator';
 
-export default Vue.extend({
-    props: {
-        error: { type: Object }
-    },
-    computed: {
-        errorMessage() {
-            if (this.$store.app.context.isDev) {
-                return this.error.message;
-            }
+@Component
+export default class ErrorPage extends Vue {
+    @Prop()
+    readonly error!: NuxtError;
 
-            return 'Произошла ошибка';
+    get errorMessage(): string {
+        const defaultMessage = 'Произошла ошибка';
+
+        if (this.$store.app.context.isDev) {
+            return this.error.message || defaultMessage;
         }
-    },
-    methods: {
-        reload() {
-            this.$router.push({ name: this.$route.name, query: { ...this.$route.query, _: Date.now() } });
-        }
+
+        return defaultMessage;
     }
-});
+
+    reload(): void {
+        location.reload();
+    }
+}
 </script>

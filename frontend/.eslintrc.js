@@ -50,7 +50,10 @@ const rules = {
     'object-curly-spacing': ['error', 'always'],
     'block-spacing': ['error'],
     'computed-property-spacing': ['error', 'never'],
-    'func-call-spacing': ['error', 'never']
+    'func-call-spacing': ['error', 'never'],
+    'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+        registeredComponentsOnly: false
+    }]
 };
 
 module.exports = {
@@ -59,24 +62,45 @@ module.exports = {
         browser: true,
         node: true
     },
+    parser: 'vue-eslint-parser',
     extends: [
+        'eslint:recommended',
         'plugin:vue/recommended',
-        'eslint:recommended'
+        'plugin:nuxt/recommended'
     ],
+    rules: rules,
+
     overrides: [
         {
             files: ['**/*.ts', '**/*.tsx', '**/*.vue'],
+            // plugins: ['@typescript-eslint'],
+            // parserOptions: {
+            //     parser: '@typescript-eslint/parser'
+            // },
             extends: [
-                'plugin:@typescript-eslint/recommended',
+                '@nuxtjs',
+                'plugin:vue/recommended',
+                'plugin:nuxt/recommended',
+                'eslint:recommended',
                 '@nuxtjs/eslint-config-typescript'
             ],
             rules: {
                 ...rules,
-                // '@typescript-eslint/no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }]
+                semi: 'off',
+                'no-unused-vars': 'off',
+                'no-redeclare': 'off',
+                // '@typescript-eslint/no-unused-vars': ['error', { args: 'all', argsIgnorePattern: '^_' }],
+                '@typescript-eslint/no-redeclare': ['error'],
+                '@typescript-eslint/semi': ['error', 'always'],
                 '@typescript-eslint/no-unused-vars': ['warn'],
-                '@typescript-eslint/no-explicit-any': 'off'
+                '@typescript-eslint/no-explicit-any': 'off',
+                '@typescript-eslint/explicit-function-return-type': ['error'],
+                '@typescript-eslint/type-annotation-spacing': ['error', {
+                    before: false,
+                    after: true
+                }]
+                // '@typescript-eslint/explicit-module-boundary-types': 'off'
             }
         }
-    ],
-    rules
+    ]
 };

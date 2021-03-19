@@ -26,6 +26,6 @@ dayjs.extend(custom);
 // https://day.js.org/docs/en/display/format
 // https://day.js.org/docs/en/display/difference
 
-export default function formatDate(date, format = undefined) {
+export default function formatDate(date: dayjs.ConfigType, format = undefined): dayjs.Dayjs {
     return dayjs(date, format).locale(dayjsRU);
 }

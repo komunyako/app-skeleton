@@ -1,6 +1,4 @@
-import Vue from 'vue';
-
-interface LayerInterface {
+export interface LayerInterface {
     open<T = any>(props?: Record<string, unknown>): Promise<T>
     close<T = any>(props?: Record<string, unknown>): Promise<T>
     alert<T = any>(props?: Record<string, unknown>): Promise<T>

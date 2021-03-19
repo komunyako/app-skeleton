@@ -1,7 +1,13 @@
+import { AxiosError } from 'axios';
 import Vue from 'vue';
 
-export default function processError(error, fieldErrors) {
-    if (error.isAxiosError) {
+/**
+ *
+ * @param error Объект ошибки
+ * @param fieldErrors Ссылка на поле компонента для записи ошибок запроса
+ */
+export default function processError(error: Error & AxiosError, fieldErrors: Record<string, unknown>): void {
+    if (error.isAxiosError && error.response) {
         error = error.response.data.error;
 
         if (fieldErrors) {

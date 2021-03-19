@@ -5,7 +5,7 @@
             <div v-if="description" v-html="description"></div>
             <div v-if="message" v-html="message"></div>
             <div>
-                <button ref="button" type="button" class="btn" @click.prevent="$emit('close')">
+                <button ref="closeActionElement" type="button" class="btn" @click.prevent="$emit('close')">
                     <span>{{ buttonCaption }}</span>
                 </button>
             </div>
@@ -14,26 +14,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { Vue, Component, Ref, Prop } from 'nuxt-property-decorator';
 
-export default Vue.extend({
-    props: {
-        title: {
-            type: String
-        },
-        description: {
-            type: String
-        },
-        message: {
-            type: String
-        },
-        buttonCaption: {
-            type: String,
-            default: 'Понимаю'
-        }
-    },
-    mounted() {
-        this.$refs.button.focus();
+@Component({
+    mounted(this: AlertLayer) {
+        this.closeActionElement.focus();
     }
-});
+})
+export default class AlertLayer extends Vue {
+    @Prop(String)
+    title: string|undefined;
+
+    @Prop(String)
+    description?: string;
+
+    @Prop(String)
+    message?: string;
+
+    @Prop({ type: String, default: 'Понимаю' })
+    buttonCaption!: string;
+
+    @Ref()
+    readonly closeActionElement!: HTMLButtonElement;
+}
 </script>
