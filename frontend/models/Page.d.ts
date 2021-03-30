@@ -1,4 +1,4 @@
-import { WidgetBlocksList } from '~/models/Widgets';
+import { WidgetBlocksList } from './Widgets';
 
 export interface ContentData {
     id: number

@@ -1,4 +1,4 @@
-import { ImageFile } from '~/models/Files';
+import { ImageFile } from './Files';
 
 interface BaseWidget {
     id: number
