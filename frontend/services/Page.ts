@@ -1,5 +1,5 @@
 import api, { RequestConfig } from '~/helpers/api';
-import { PageData } from '~/models/Page';
+import { PageData, ContentData } from '~/models/Page';
 
 
 export default class PageService {
@@ -8,7 +8,7 @@ export default class PageService {
      * @param name Путь или имя страницы
      * @param config Настройки запроса
      */
-    static async getData(name: string, config?: RequestConfig): Promise<PageData> {
+    static async fetchData(name: string, config?: RequestConfig): Promise<PageData> {
         // Если это ссылка
         if (name.startsWith('/')) {
             return await api.get('/api/pages', { ...config, params: { ...config?.params, path: name } });
@@ -22,7 +22,7 @@ export default class PageService {
      * @param id Идентификатор контента
      * @param config Настройки запроса
      */
-    static async getContent(id: number, config?: RequestConfig): Promise<PageData> {
+    static async fetchContent(id: number, config?: RequestConfig): Promise<ContentData> {
         return await api.get('/api/contents/' + id, config);
     }
 }

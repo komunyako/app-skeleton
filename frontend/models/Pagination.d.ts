@@ -15,7 +15,7 @@ export interface PaginationParams {
     /** Текущая страница */
     page: number
 
-    /** Количество элементов */
+    /** Количество элементов на страницу */
     limit: number
 }
 

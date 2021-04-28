@@ -37,7 +37,7 @@ import { Vue, Component } from 'nuxt-property-decorator';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
 
 @Component({
-    // Чтобы работали подсказки пропов в шаблоне, необходимо руками указывать импорт компонента
+    // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
         TypescriptLearningTemplate

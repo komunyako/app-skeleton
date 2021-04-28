@@ -1,12 +1,8 @@
 import { Context } from '@nuxt/types';
-import { Store } from 'vuex';
-import { initialiseStores } from '~/utils/store-accessor';
+import { pageStore } from '~/store';
 
-const initializer = (store: Store<any>): void => initialiseStores(store);
 
-export default function({ $axios, route, store }: Context): Promise<any> {
-    initializer(store);
-
+export default function({ $axios, route }: Context): Promise<any> {
     const request = route.name === 'all'
         ? $axios.$get('/api/pages', {
             params: {
@@ -16,11 +12,11 @@ export default function({ $axios, route, store }: Context): Promise<any> {
         : $axios.$get('/api/pages/' + route.name);
 
     return request
-        .then(page => store.dispatch('page/update', page))
-        .catch(() => store.dispatch('page/reset'))
-        .then(() => {
+        .then(page => pageStore.update(page))
+        .catch(() => pageStore.reset())
+        .finally(() => {
             if (process.server) {
-                store.dispatch('page/fix');
+                pageStore.fix();
             }
         });
 }

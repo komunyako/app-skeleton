@@ -29,37 +29,34 @@
 import { Vue, Component, Prop } from 'nuxt-property-decorator';
 import { PageData } from '~/models/Page';
 import PageService from '~/services/Page';
-import { PageStore } from '~/store';
+import { pageStore } from '~/store';
 
-// Интерфейс описывает все данные компонента, которы обычно определяем в `data()`
+// Интерфейс описывает все данные компонента, которые обычно определяем в `data()`
 interface TestComponentData {
-    someDataContent: string
+    someDataContent: string|null
     testingData: string|null
     page: PageData|null
 }
 
 // Все хуки и настройки компонента должны быть переданы параметром декоратора
-// Иначе не буду работать подсказки и прочее
 @Component({
-    // Вы можете выбрать какие поля будете получать в `asyncData`, чтобы TS не ругался на неполноту информации
+    fetchOnServer: false,
+    // Чтобы в хуках можно было обращаться к свойствам и методам класса, необходимо установить тип контекста как класс компонента `this: TestComponent`
+    // fetch должен возвращать тип `Promise<void>` если используете `async/await`
+    // fetch должен возвращать тип `Promise<any>` если используете `return Promise.all`
     async fetch(this: TestComponent): Promise<void> {
-        const page = await PageService.getData('index');
+        const page = await PageService.fetchData('index');
         this.page = page;
 
         // const pageData = await Promise.resolve('some data');
         // this.testingData = pageData;
     },
-    // fetch(this: TestComponent): Promise<any> {
-    //     return Promise.all([
-    //         this.fetchCustomData()
-    //     ]);
-    // },
-    // Чтобы в хуках можно было обращаться к свойствам класса, необходимо установить тип контекста сам класс компонента `this: TestComponent`
+
     created(this: TestComponent) {
-        console.log('created hook :: ', this.testingProp);
+        console.log('created hook :: testingProp: ', this.testingProp, '\n\n');
     },
     mounted(this: TestComponent) {
-        console.log('mounted hook :: ', this.title);
+        console.log('mounted hook :: title: ', this.title, '\n\n');
         this.printLogs();
     }
 })
@@ -71,16 +68,20 @@ export default class TestComponent extends Vue implements TestComponentData {
     readonly title!: string;
 
     // Так же у необязательный свойств нужно указывать дефолтное значение `null`, если вы хотите присвоить это значение сразу в свойство `data`. Смотрите дальше `someDataContent`
+    @Prop({ type: String, default: null })
+    readonly customPropForData!: string|null;
+
     @Prop({ type: String })
     readonly customProp!: string;
 
     // Настройки пропа педавать необходимо в параметре к декоратору.
-    @Prop({ type: String, default: 'testingProp: Дефолтное значение' })
+    @Prop({ type: String, default: 'Дефолтное значение' })
     readonly testingProp!: string;
 
-    // Чтобы обратиться к пропу и присвоить его значение в `data()`, это свойство нужно определить с восклицательным знаком `readonly title!: string;`
-    // Для таких пропов необходимо обязательно поставить `default: null` иначе свойство не будет создано и ошибка рендера появится
-    someDataContent: TestComponentData['someDataContent'] = this.title;
+    // Чтобы обратиться к пропу и присвоить его значение в `data()`
+    // У необязательного пропа нужно установить дефолтное значение, иначе свойство не будет создано и ошибка рендера появится
+    // Если в дефолтном значении не должно быть данных, то указывайте `null`
+    someDataContent: TestComponentData['someDataContent'] = this.customPropForData;
     // Иначе будет ошибка
     // someDataContent: TestComponentData['someDataContent'] = this.customProp;
 
@@ -98,8 +99,8 @@ export default class TestComponent extends Vue implements TestComponentData {
     page: TestComponentData['page'] = null;
 
     printLogs(): void {
-        console.log('page / from data :: ', this.page || 'Запрос ещё не выполнился', '\n\n');
-        console.log('page / from store :: ', PageStore);
+        console.log('page / from data :: page: ', this.page || 'Запрос ещё не выполнился', '\n\n');
+        console.log('page / from store :: pageStore.data: ', pageStore.data, '\n\n');
     }
 }
 </script>

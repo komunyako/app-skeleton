@@ -1,11 +1,10 @@
 {
     "compilerOptions": {
-        "target": "ES2018",
+        "target": "ES6",
         "module": "ESNext",
         "moduleResolution": "Node",
         "lib": [
             "ESNext",
-            "ESNext.AsyncIterable",
             "DOM"
         ],
         "esModuleInterop": true,
@@ -16,7 +15,6 @@
         "experimentalDecorators": true,
         "importHelpers": true,
         "baseUrl": ".",
-        // "importsNotUsedAsValues": "preserve",
         "paths": {
             "~/*": [
                 "./*"

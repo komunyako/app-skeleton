@@ -7,21 +7,21 @@
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
 import { PageData } from '~/models/Page';
+import { pageStore } from '~/store';
 import PageService from '~/services/Page';
 
-
 interface ComponentData {
-    page: PageData | null
+    page: PageData|null
 }
 
 @Component({
-    async asyncData({ error, store }): Promise<ComponentData | void> {
+    async asyncData({ error }): Promise<ComponentData | void> {
         const data = {
-            page: store.state.page.data
+            page: pageStore.data
         };
 
         if (data.page?.content?.id) {
-            data.page.content = await PageService.getContent(data.page.content.id);
+            data.page.content = await PageService.fetchContent(data.page.content.id);
         }
 
         if (!data.page?.content) {

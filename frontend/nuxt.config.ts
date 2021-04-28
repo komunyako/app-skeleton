@@ -1,6 +1,4 @@
 import { NuxtConfig } from '@nuxt/types';
-import { MetaInfo } from 'vue-meta';
-
 
 const config: NuxtConfig = {
     telemetry: false,
@@ -8,9 +6,7 @@ const config: NuxtConfig = {
         parallel: true,
         postcss: {
             plugins: {
-                'postcss-nested': {
-
-                }
+                'postcss-nested': {}
             },
             preset: {
                 autoprefixer: {
@@ -31,8 +27,6 @@ const config: NuxtConfig = {
     ** See https://nuxtjs.org/api/configuration-head
     */
     head() {
-        // const meta: MetaInfo['meta'][] = [];
-
         if (process.server) {
             // meta.push({ hid: 'og:image', name: 'og:image', content: `//${ this.context.req.headers.host }/social.jpg` });
         }
@@ -61,6 +55,7 @@ const config: NuxtConfig = {
     ** https://nuxtjs.org/guide/plugins
     */
     plugins: [
+        '~/plugins/store',
         '~/plugins/page.ts',
         '~/plugins/axios.ts',
         '~/plugins/layer/layer.client.js',

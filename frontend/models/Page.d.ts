@@ -11,10 +11,10 @@ export interface PageData {
     slug: string
     url: string
     title: string
-    meta: {
+    meta?: {
         title: string
         description: string
         keywords: string
     }
-    content: ContentData
+    content?: ContentData
 }
