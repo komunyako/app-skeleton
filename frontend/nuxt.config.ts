@@ -1,16 +1,19 @@
 import { NuxtConfig } from '@nuxt/types';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+
 const config: NuxtConfig = {
     telemetry: false,
     build: {
         parallel: true,
         postcss: {
             plugins: {
-                'postcss-nested': {}
+                'postcss-nesting': {}
             },
             preset: {
                 autoprefixer: {
-                    grid: process.env.NODE_ENV === 'production' ? 'autoplace' : false
+                    grid: isProduction ? 'autoplace' : false
                 }
             }
         }
@@ -124,7 +127,13 @@ const config: NuxtConfig = {
     },
 
     tailwindcss: {
-        exposeConfig: true
+        // Все глобальные стили, включая Tailwind, подключаем на все страницы проекта.
+        cssPath: '~/assets/styles/global.css',
+        viewer: true,
+        exposeConfig: false,
+
+        // если что-то не так со сборкой стилей, закомментируйте эту настройку
+        jit: !isProduction
     }
 };
 
