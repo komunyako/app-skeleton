@@ -5,16 +5,16 @@ import { PageData, ContentData } from '~/models/Page';
 export default class PageService {
     /**
      * Получить данные страницы
-     * @param name Путь или имя страницы
+     * @param pathOrName Путь или имя страницы
      * @param config Настройки запроса
      */
-    static async fetchData(name: string, config?: RequestConfig): Promise<PageData> {
-        // Если это ссылка
-        if (name.startsWith('/')) {
-            return await api.get('/api/pages', { ...config, params: { ...config?.params, path: name } });
+    static fetchData(pathOrName: string, config?: RequestConfig): Promise<PageData> {
+        // Если это путь
+        if (pathOrName.startsWith('/')) {
+            return api.get('/api/pages', { ...config, params: { ...config?.params, path: pathOrName } });
         }
 
-        return await api.get('/api/pages/' + name, config);
+        return api.get('/api/pages/' + pathOrName, config);
     }
 
     /**
@@ -22,7 +22,7 @@ export default class PageService {
      * @param id Идентификатор контента
      * @param config Настройки запроса
      */
-    static async fetchContent(id: number, config?: RequestConfig): Promise<ContentData> {
-        return await api.get('/api/contents/' + id, config);
+    static fetchContent(id: number, config?: RequestConfig): Promise<ContentData> {
+        return api.get('/api/contents/' + id, config);
     }
 }

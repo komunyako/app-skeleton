@@ -2,12 +2,10 @@ import { AxiosRequestConfig } from 'axios';
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
 
 export interface RequestConfig extends AxiosRequestConfig {}
-// export type RequestConfig = AxiosRequestConfig;
 
 type RequestData = string | Record<string, unknown> | ArrayBuffer | ArrayBufferView | URLSearchParams;
 
 class NuxtAxiosClient {
-    // eslint-disable-next-line no-useless-constructor
     client!: NuxtAxiosInstance;
 
     get<T = any>(url: string, config?: RequestConfig): Promise<T> {
@@ -44,7 +42,6 @@ class NuxtAxiosClient {
 }
 
 const api = new NuxtAxiosClient();
-
 export default api;
 
 export function setRequestClient(client: NuxtAxiosInstance): void {

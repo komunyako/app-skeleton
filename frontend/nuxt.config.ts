@@ -65,8 +65,8 @@ const config: NuxtConfig = {
     */
     plugins: [
         '~/plugins/store',
-        '~/plugins/page.ts',
         '~/plugins/axios.ts',
+        '~/plugins/page.ts',
         '~/plugins/layer/layer.client.js',
         '~/plugins/storage.js',
         '~/plugins/uuid.ts'

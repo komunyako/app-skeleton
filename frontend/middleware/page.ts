@@ -1,17 +1,12 @@
 import { Context } from '@nuxt/types';
+import PageService from '~/services/Page';
 import { pageStore } from '~/store';
 
 
-export default function({ $axios, route }: Context): Promise<any> {
-    const request = route.name === 'all'
-        ? $axios.$get('/api/pages', {
-            params: {
-                path: route.path
-            }
-        })
-        : $axios.$get('/api/pages/' + route.name);
+export default function({ route }: Context): Promise<void> {
+    const pathOrName = route.name === 'all' ? route.path : route.name as string;
 
-    return request
+    return PageService.fetchData(pathOrName)
         .then(page => pageStore.update(page))
         .catch(() => pageStore.reset())
         .finally(() => {
