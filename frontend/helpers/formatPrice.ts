@@ -9,7 +9,7 @@ const defaultPriceFormatter = new Intl.NumberFormat('ru-RU', { style: 'currency'
  * @param number стоимость
  * @param options параметры форматирования
  */
-export default function formatPrice(number: number, options: NumberFormatOptions = {}): string {
+export default function formatPrice(number: number, options?: NumberFormatOptions): string {
     if (options) {
         return formatNumber(number, { style: 'currency', minimumFractionDigits: number % 1 ? 2 : 0, ...options });
     }

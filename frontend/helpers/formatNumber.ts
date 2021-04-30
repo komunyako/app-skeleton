@@ -9,7 +9,7 @@ export type NumberFormatOptions = Intl.NumberFormatOptions & {locale?: string};
  * @param number число
  * @param options параметры форматирования
  */
-export default function formatNumber(number: number, options: NumberFormatOptions = {}): string {
+export default function formatNumber(number: number, options?: NumberFormatOptions): string {
     if (options) {
         const { locale = 'ru-RU', ...restOptions } = options;
 
