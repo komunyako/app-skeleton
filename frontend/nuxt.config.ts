@@ -5,10 +5,16 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const config: NuxtConfig = {
     telemetry: false,
+
+    /*
+    ** Build configuration
+    ** See https://nuxtjs.org/api/configuration-build/
+    */
     build: {
         parallel: true,
         postcss: {
             plugins: {
+                cssnano: isProduction ? { preset: 'default' } : false,
                 'postcss-nesting': {}
             },
             preset: {
@@ -102,17 +108,7 @@ const config: NuxtConfig = {
     */
     axios: {},
 
-    /*
-    ** Content module configuration
-    ** See https://content.nuxtjs.org/configuration
-    */
-    content: {},
-
-    /*
-    ** Build configuration
-    ** See https://nuxtjs.org/api/configuration-build/
-    */
-
+    /** Инструкция — https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-router */
     router: {
         middleware: ['page'],
         trailingSlash: true,
@@ -127,13 +123,25 @@ const config: NuxtConfig = {
     },
 
     tailwindcss: {
-        // Все глобальные стили, включая Tailwind, подключаем на все страницы проекта.
+        /** Все глобальные стили, включая Tailwind, подключаем на все страницы проекта. */
         cssPath: '~/assets/styles/global.css',
+
+        /** Просмотрщик работает только в режиме разработки → `nuxt dev` */
         viewer: true,
+
+        /**
+         * Включить, если нужно использовать значения конфига в скриптах.
+         *
+         * {@link https://tailwindcss.nuxtjs.org/tailwind/config#referencing-in-the-application Инструкция}
+         */
         exposeConfig: false,
 
-        // если что-то не так со сборкой стилей, закомментируйте эту настройку
-        jit: !isProduction
+        /**
+         * Новый режим сборки.
+         *
+         * {@link https://tailwindcss.com/docs/just-in-time-mode Инструкция}
+         */
+        jit: true
     }
 };
 

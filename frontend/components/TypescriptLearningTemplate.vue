@@ -1,16 +1,28 @@
 <template>
-    <div>
-        <div>
-            prop / title: {{ title }}
-        </div><br>
+    <div class="custom-styled">
+        <div class="aspect-w-16 aspect-h-3 md:aspect-w-4 mb-10">
+            <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/n_FOM_xlqdU"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+        </div>
 
-        <div>
+        <div class="mb-6">
+            prop / title: {{ title }}
+        </div>
+
+        <div class="mb-6">
             data / someDataContent: {{ someDataContent }}
             <br>
             присваивается значение из `title`
-        </div><br>
+        </div>
 
-        <div>
+        <div class="mb-6">
             testingData: {{ testingData }}
             <button v-if="!testingData" @click="setTestingData">
                 установить данные
@@ -104,3 +116,23 @@ export default class TestComponent extends Vue implements TestComponentData {
     }
 }
 </script>
+
+<style lang="postcss" scoped>
+/*
+    В локальных стилях нельзя использовать некоторые директивы:
+    - layer
+    - responsive
+    - variants
+
+    Избегайте написания своего CSS всеми путями!
+*/
+.custom-styled {
+    @apply text-gray-500;
+}
+
+@screen md {
+    .custom-styled {
+        @apply text-red-500;
+    }
+}
+</style>
