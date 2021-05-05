@@ -17,6 +17,11 @@
 
 - [PhpStorm (backend)](app/docs/php-storm-backend.md) 
 - [PhpStorm (frontend)](app/docs/php-storm-frontend.md) 
+  
+---  
+  
+## Документация
+- [Frontend](app/docs/frontend/frontend.md)
 
 ---
   
@@ -57,8 +62,3 @@
   
 - Выполняем запросы миграции:
   `docker-compose exec backend bin/console propel:migration:migrate`
-  
----  
-  
-## Frontend
-- [Frontend](app/docs/frontend.md)
