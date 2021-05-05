@@ -23,6 +23,10 @@
         </div>
 
         <div class="mb-6">
+            Вычесляемое свойство testingDataComputed: {{ testingDataComputed }}
+        </div>
+
+        <div class="mb-6">
             testingData: {{ testingData }}
             <button v-if="!testingData" @click="setTestingData">
                 установить данные
@@ -105,6 +109,10 @@ export default class TestComponent extends Vue implements TestComponentData {
     // Все методы должны указывать возвращаемый тип данных
     setTestingData(): void {
         this.testingData = 'Динамические данные';
+    }
+
+    get testingDataComputed(): string {
+        return 'this.testingData = ' + this.testingData;
     }
 
 
