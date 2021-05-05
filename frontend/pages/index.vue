@@ -29,17 +29,24 @@
                 Go to error page
             </NuxtLink>
         </div>
+        <div>
+            <BaseButton :href="{name: 'ui'}" size="fit" theme="transparent" font-weight="font-normal">
+                Go to UI page
+            </BaseButton>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
+import BaseButton from '~/components/BaseButton.vue';
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
+        BaseButton,
         TypescriptLearningTemplate
     }
 })
