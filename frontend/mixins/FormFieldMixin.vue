@@ -4,9 +4,6 @@ import { generateUuid } from '~/plugins/uuid';
 
 @Component
 export default class FormFieldMixin extends Vue {
-    @Prop({ type: Object, default: () => ({}) })
-    readonly inputListeners!: { [x: string]: any };
-
     /** Название инпута (для label) */
     @Prop({ type: String, default: null })
     readonly title!: string;

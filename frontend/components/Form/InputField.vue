@@ -8,7 +8,7 @@
             v-model="inputValue"
             class="field__input"
             v-bind="inputPropsCombined"
-            v-on="inputListeners"
+            v-on="$listeners"
             @focus="onFocus"
             @blur="onBlur"
         >
@@ -28,7 +28,8 @@ interface InputFieldData {
 
 @Component({
     components: { BaseFormField },
-    extends: BaseFormField
+    extends: BaseFormField,
+    inheritAttrs: false
 })
 export default class InputField extends Vue implements InputFieldData {
     @Prop({ type: String, default: 'text' })
