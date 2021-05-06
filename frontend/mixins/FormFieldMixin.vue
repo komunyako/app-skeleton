@@ -37,8 +37,8 @@ export default class FormFieldMixin extends Vue implements FormFieldMixinData {
     readonly required!: boolean;
 
     /** Обновить значение инпута */
-    @PropSync('value', { type: [String, Number], default: null })
-    readonly inputValue!: string|number|null;
+    @PropSync('value', { type: [String, Number, Boolean], default: null })
+    readonly inputValue!: string|number|boolean|null;
 
     get inputProps(): {[x: string]: string|boolean} {
         return {

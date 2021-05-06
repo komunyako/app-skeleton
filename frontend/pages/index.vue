@@ -29,13 +29,13 @@
                 Go to error page
             </NuxtLink>
         </div>
-        <div class="bg-blue-100">
+        <!--@todo добавлено для минимальной иллюстрации компонентов - удалить потом-->
+        <div class="bg-blue-100 py-4 mb-20">
             <InputField
                 :value.sync="input"
                 title="Введите инпут"
                 placeholder="плейсхолдер"
                 required
-                @input="logInput"
             />
             <div class="my-4">
                 input - {{ input }}
@@ -48,6 +48,18 @@
             <div class="my-4">
                 textarea - {{ textarea }}
             </div>
+            <div>
+                <ToggleField :value.sync="checkbox1.value" :title="checkbox1.title" />
+                checkbox1 - {{ checkbox1.value }}
+            </div>
+            <div>
+                <ToggleField :value.sync="checkbox2.value" :title="checkbox2.title" />
+                checkbox2 - {{ checkbox2.value }}
+            </div>
+            <div v-for="radio in radioButtons" :key="radio.title">
+                <ToggleField type="radio" :value.sync="pickedRadioButton" :title="radio.title" :field-value="radio.value" />
+            </div>
+            pickedRadioButton - {{ pickedRadioButton }}
         </div>
     </div>
 </template>
@@ -57,16 +69,22 @@ import { Vue, Component } from 'nuxt-property-decorator';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
 import InputField from '~/components/Form/InputField.vue';
 import TextareaField from '~/components/Form/TextareaField.vue';
+import ToggleField from '~/components/Form/ToggleField.vue';
 
 interface IndexPageData {
     input: string|null,
-    textarea: string|null
+    textarea: string|null,
+    checkbox1: {value: boolean, title: string},
+    checkbox2: {value: boolean, title: string},
+    radioButtons: Array<{value: string, title: string}>,
+    pickedRadioButton: string|null
 }
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
+        ToggleField,
         TextareaField,
         InputField,
         TypescriptLearningTemplate
@@ -75,9 +93,27 @@ interface IndexPageData {
 export default class IndexPage extends Vue implements IndexPageData {
     input = null;
     textarea = null;
+    checkbox1 = {
+        value: false,
+        title: 'hi'
+    };
 
-    logInput(e: any): void {
-        console.log('input', e.target.value);
-    }
+    checkbox2 = {
+        value: false,
+        title: 'hi 2'
+    };
+
+    radioButtons = [
+        {
+            value: 'radio 1',
+            title: 'radio 1'
+        },
+        {
+            value: 'radio 2',
+            title: 'radio 2'
+        }
+    ];
+
+    pickedRadioButton = null;
 }
 </script>
