@@ -40,7 +40,11 @@
             <div class="my-4">
                 input - {{ input }}
             </div>
-            <TextareaField :value.sync="textarea" title="Введите textarea" />
+            <TextareaField
+                :value.sync="textarea"
+                title="Введите textarea"
+                placeholder="плейсхолдер textarea"
+            />
             <div class="my-4">
                 textarea - {{ textarea }}
             </div>

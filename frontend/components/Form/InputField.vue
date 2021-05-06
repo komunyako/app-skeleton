@@ -22,16 +22,12 @@
 import { Vue, Component, Prop, Ref } from 'nuxt-property-decorator';
 import BaseFormField from '~/components/Form/BaseFormField.vue';
 
-interface InputFieldData {
-    isFocus: boolean
-}
-
 @Component({
     components: { BaseFormField },
     extends: BaseFormField,
     inheritAttrs: false
 })
-export default class InputField extends Vue implements InputFieldData {
+export default class InputField extends Vue {
     @Prop({ type: String, default: 'text' })
     readonly type!: string;
 
@@ -53,16 +49,6 @@ export default class InputField extends Vue implements InputFieldData {
             maxlength: this.maxlength,
             inputmode: this.inputmode
         };
-    }
-
-    isFocus = false;
-
-    onBlur(): void {
-        this.isFocus = false;
-    }
-
-    onFocus(): void {
-        this.isFocus = true;
     }
 
     @Ref()

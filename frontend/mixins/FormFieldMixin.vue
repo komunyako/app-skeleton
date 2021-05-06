@@ -2,8 +2,12 @@
 import { Vue, Component, Prop, PropSync } from 'nuxt-property-decorator';
 import { generateUuid } from '~/plugins/uuid';
 
+interface FormFieldMixinData {
+    isFocus: boolean
+}
+
 @Component
-export default class FormFieldMixin extends Vue {
+export default class FormFieldMixin extends Vue implements FormFieldMixinData {
     /** Название инпута (для label) */
     @Prop({ type: String, default: null })
     readonly title!: string;
@@ -44,6 +48,16 @@ export default class FormFieldMixin extends Vue {
             disabled: this.disabled,
             required: this.required
         };
+    }
+
+    isFocus = false;
+
+    onFocus(): void {
+        this.isFocus = true;
+    }
+
+    onBlur(): void {
+        this.isFocus = false;
     }
 }
 </script>

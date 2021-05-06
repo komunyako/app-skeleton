@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
-import FormFieldMixin from '~/mixins/formFieldMixin.vue';
+import FormFieldMixin from '~/mixins/FormFieldMixin.vue';
 
 @Component({
     mixins: [FormFieldMixin]

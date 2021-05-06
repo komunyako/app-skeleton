@@ -11,8 +11,8 @@
                 v-bind="inputPropsCombined"
                 :max-height="250"
                 v-on="$listeners"
-                @focus="onFocus"
-                @blur="onBlur"
+                @focus.native="onFocus"
+                @blur.native="onBlur"
             />
         </ClientOnly>
     </BaseFormField>
@@ -22,16 +22,12 @@
 import { Vue, Component, Ref, Prop } from 'nuxt-property-decorator';
 import BaseFormField from '~/components/Form/BaseFormField.vue';
 
-interface TextareaFieldData {
-    isFocus: boolean
-}
-
 @Component({
     components: { BaseFormField },
     extends: BaseFormField,
     inheritAttrs: false
 })
-export default class TextareaField extends Vue implements TextareaFieldData {
+export default class TextareaField extends Vue {
     @Prop({ type: String, default: 'text' })
     readonly type!: string;
 
@@ -58,16 +54,6 @@ export default class TextareaField extends Vue implements TextareaFieldData {
             inputmode: this.inputmode,
             rows: this.rows
         };
-    }
-
-    isFocus = false;
-
-    onBlur(): void {
-        this.isFocus = false;
-    }
-
-    onFocus(): void {
-        this.isFocus = true;
     }
 
     @Ref()
