@@ -29,20 +29,51 @@
                 Go to error page
             </NuxtLink>
         </div>
+        <div class="bg-blue-100">
+            <InputField
+                :value.sync="input"
+                title="Введите инпут"
+                placeholder="плейсхолдер"
+                required
+                @input="logInput"
+            />
+            <div class="my-4">
+                input - {{ input }}
+            </div>
+            <TextareaField :value.sync="textarea" title="Введите textarea" />
+            <div class="my-4">
+                textarea - {{ textarea }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
+import InputField from '~/components/Form/InputField.vue';
+import TextareaField from '~/components/Form/TextareaField.vue';
+
+interface IndexPageData {
+    input: string|null,
+    textarea: string|null
+}
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
+        TextareaField,
+        InputField,
         TypescriptLearningTemplate
     }
 })
-export default class IndexPage extends Vue {
+export default class IndexPage extends Vue implements IndexPageData {
+    input = null;
+    textarea = null;
+
+    logInput(e: any): void {
+        console.log('input', e.target.value);
+    }
 }
 </script>

@@ -69,7 +69,8 @@ const config: NuxtConfig = {
         '~/plugins/page.ts',
         '~/plugins/layer/layer.client.js',
         '~/plugins/storage.js',
-        '~/plugins/uuid.ts'
+        '~/plugins/uuid.ts',
+        '~/plugins/textarea.autosize.client.js'
     ],
 
     /*

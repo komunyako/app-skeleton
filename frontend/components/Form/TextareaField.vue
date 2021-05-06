@@ -3,26 +3,26 @@
         v-bind="$props"
         :focus="isFocus"
     >
-        <input
-            ref="inputElement"
-            v-model="inputValue"
-            class="field__input"
-            v-bind="inputPropsCombined"
-            v-on="$listeners"
-            @focus="onFocus"
-            @blur="onBlur"
-        >
-        <template v-if="'side' in $slots" #side>
-            <slot name="side"></slot>
-        </template>
+        <ClientOnly>
+            <TextareaAutosize
+                ref="textareaElement"
+                v-model="inputValue"
+                class="field__input"
+                v-bind="inputPropsCombined"
+                :max-height="250"
+                v-on="$listeners"
+                @focus="onFocus"
+                @blur="onBlur"
+            />
+        </ClientOnly>
     </BaseFormField>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Ref } from 'nuxt-property-decorator';
+import { Vue, Component, Ref, Prop } from 'nuxt-property-decorator';
 import BaseFormField from '~/components/Form/BaseFormField.vue';
 
-interface InputFieldData {
+interface TextareaFieldData {
     isFocus: boolean
 }
 
@@ -31,7 +31,7 @@ interface InputFieldData {
     extends: BaseFormField,
     inheritAttrs: false
 })
-export default class InputField extends Vue implements InputFieldData {
+export default class TextareaField extends Vue implements TextareaFieldData {
     @Prop({ type: String, default: 'text' })
     readonly type!: string;
 
@@ -46,12 +46,17 @@ export default class InputField extends Vue implements InputFieldData {
     @Prop({ type: Number, default: null })
     readonly maxlength!: number;
 
+    /** Высота текстового поля */
+    @Prop({ type: Number, default: 3 })
+    readonly rows!: number;
+
     get inputPropsCombined(): {[x: string]: string|number|boolean} {
         return {
             ...this.inputProps,
             autocomplete: this.autocomplete,
             maxlength: this.maxlength,
-            inputmode: this.inputmode
+            inputmode: this.inputmode,
+            rows: this.rows
         };
     }
 
@@ -66,6 +71,6 @@ export default class InputField extends Vue implements InputFieldData {
     }
 
     @Ref()
-    readonly inputElement!: HTMLInputElement;
+    readonly textareaElement!: HTMLTextAreaElement;
 }
 </script>
