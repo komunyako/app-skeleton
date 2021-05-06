@@ -15,6 +15,3 @@
 
 /* Секция для компонентов */
 @import "./components/container.css";
-
-/* Секция для утилит */
-@import "./utilities/utilities.css";

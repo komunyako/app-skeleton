@@ -29,9 +29,9 @@
                 Go to error page
             </NuxtLink>
         </div>
-        <div>
-            <BaseButton :href="{name: 'ui'}" size="fit" theme="transparent" font-weight="font-normal">
-                Go to UI page
+        <div class="flex flex-col items-start">
+            <BaseButton :href="{name: 'index'}">
+                кнопка
             </BaseButton>
         </div>
     </div>
