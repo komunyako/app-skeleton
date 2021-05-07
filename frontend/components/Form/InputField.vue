@@ -8,7 +8,7 @@
             v-model="inputValue"
             class="field__input"
             v-bind="inputPropsCombined"
-            v-on="$listeners"
+            v-on="inputListeners"
             @focus="onFocus"
             @blur="onBlur"
         >
@@ -24,25 +24,24 @@ import BaseFormField from '~/components/Form/BaseFormField.vue';
 
 @Component({
     components: { BaseFormField },
-    extends: BaseFormField,
-    inheritAttrs: false
+    extends: BaseFormField
 })
 export default class InputField extends Vue {
     @Prop({ type: String, default: 'text' })
     readonly type!: string;
 
     @Prop({ type: String, default: null })
-    readonly autocomplete!: string;
+    readonly autocomplete!: string|null;
 
     /** Тип виртуальной клавиатуры */
     @Prop({ type: String, default: null })
-    readonly inputmode!: string;
+    readonly inputmode!: string|null;
 
     /** Максимально допустимое число символов */
     @Prop({ type: Number, default: null })
-    readonly maxlength!: number;
+    readonly maxlength!: number|null;
 
-    get inputPropsCombined(): {[x: string]: string|number|boolean} {
+    get inputPropsCombined(): {[x: string]: string|number|boolean|null} {
         return {
             ...this.inputProps,
             autocomplete: this.autocomplete,

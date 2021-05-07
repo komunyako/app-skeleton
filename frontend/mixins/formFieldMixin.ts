@@ -1,4 +1,3 @@
-<script lang="ts">
 import { Vue, Component, Prop, PropSync } from 'nuxt-property-decorator';
 import { generateUuid } from '~/plugins/uuid';
 
@@ -8,26 +7,29 @@ interface FormFieldMixinData {
 
 @Component
 export default class FormFieldMixin extends Vue implements FormFieldMixinData {
+    @Prop({ type: Object, default: () => ({}) })
+    readonly inputListeners!: { [x: string]: ()=> void }|{};
+
     /** Название инпута (для label) */
     @Prop({ type: String, default: null })
-    readonly title!: string;
+    readonly title!: string|null;
 
     @Prop({ type: String, default: null })
-    readonly error!: string;
+    readonly error!: string|null;
 
     /** Инпут в фокусе */
     @Prop({ type: Boolean, default: false })
     readonly focus!: boolean;
 
     @Prop({ type: String, default: null })
-    readonly placeholder!: string;
+    readonly placeholder!: string|null;
 
     @Prop({ type: String, default: () => generateUuid('form-field-') })
     readonly id!: string;
 
     /** Тип инпута */
     @Prop({ type: String, default: null })
-    readonly type!: string;
+    readonly type!: string|null;
 
     @Prop({ type: Boolean, default: false })
     readonly disabled!: boolean;
@@ -40,7 +42,7 @@ export default class FormFieldMixin extends Vue implements FormFieldMixinData {
     @PropSync('value', { type: [String, Number, Boolean], default: null })
     readonly inputValue!: string|number|boolean|null;
 
-    get inputProps(): {[x: string]: string|boolean} {
+    get inputProps(): {[x: string]: string|boolean|null} {
         return {
             id: this.id,
             type: this.type,
@@ -60,5 +62,3 @@ export default class FormFieldMixin extends Vue implements FormFieldMixinData {
         this.isFocus = false;
     }
 }
-</script>
-

@@ -10,7 +10,7 @@
                 class="field__input"
                 v-bind="inputPropsCombined"
                 :max-height="250"
-                v-on="$listeners"
+                v-on="inputListeners"
                 @focus.native="onFocus"
                 @blur.native="onBlur"
             />
@@ -24,29 +24,28 @@ import BaseFormField from '~/components/Form/BaseFormField.vue';
 
 @Component({
     components: { BaseFormField },
-    extends: BaseFormField,
-    inheritAttrs: false
+    extends: BaseFormField
 })
 export default class TextareaField extends Vue {
     @Prop({ type: String, default: 'text' })
     readonly type!: string;
 
     @Prop({ type: String, default: null })
-    readonly autocomplete!: string;
+    readonly autocomplete!: string|null;
 
     /** Тип виртуальной клавиатуры */
     @Prop({ type: String, default: null })
-    readonly inputmode!: string;
+    readonly inputmode!: string|null;
 
     /** Максимально допустимое число символов */
     @Prop({ type: Number, default: null })
-    readonly maxlength!: number;
+    readonly maxlength!: number|null;
 
     /** Высота текстового поля */
     @Prop({ type: Number, default: 3 })
     readonly rows!: number;
 
-    get inputPropsCombined(): {[x: string]: string|number|boolean} {
+    get inputPropsCombined(): {[x: string]: string|number|boolean|null} {
         return {
             ...this.inputProps,
             autocomplete: this.autocomplete,

@@ -8,7 +8,7 @@
             class="toggle-field__input pointer-events-none opacity-0 absolute top-0 left-0 right-0 bottom-0"
             v-bind="inputProps"
             :value="fieldValue"
-            v-on="$listeners"
+            v-on="inputListeners"
         >
         <template #title>
             <slot name="title" v-bind="{id, title}">
@@ -37,6 +37,6 @@ export default class ToggleField extends Vue {
 
     /** Значение инпута с типом === 'radio' */
     @Prop({ type: String, default: null })
-    readonly fieldValue!: string;
+    readonly fieldValue!: string|null;
 }
 </script>

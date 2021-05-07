@@ -23,13 +23,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'nuxt-property-decorator';
-import FormFieldMixin from '~/mixins/FormFieldMixin.vue';
+import { Component, mixins } from 'nuxt-property-decorator';
+import FormFieldMixin from '~/mixins/formFieldMixin';
 
-@Component({
-    mixins: [FormFieldMixin]
-})
-export default class BaseFormField extends Vue {
+@Component
+export default class BaseFormField extends mixins(FormFieldMixin) {
 }
 </script>
 
