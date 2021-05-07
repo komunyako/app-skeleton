@@ -29,6 +29,7 @@
     "postcss": "^8.2.13",
     "postcss-preset-env": "^6.7.0",
     "typescript": "^4.2.3",
+    "vue-multiselect": "^2.1.6",
     "vue-textarea-autosize": "^1.1.1"
   },
   "devDependencies": {

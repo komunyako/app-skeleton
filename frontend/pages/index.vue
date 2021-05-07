@@ -60,6 +60,18 @@
                 <ToggleField type="radio" :value.sync="pickedRadioButton" :title="radio.title" :field-value="radio.value" />
             </div>
             pickedRadioButton - {{ pickedRadioButton }}
+            <div class="my-4">
+                <SelectField
+                    :value.sync="select.value"
+                    title="Ваша цель"
+                    label="title"
+                    track-by="id"
+                    placeholder=""
+                    :clear-on-select="false"
+                    :options="select.options"
+                />
+                <div>select - {{ select.value }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -70,6 +82,7 @@ import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.
 import InputField from '~/components/Form/InputField.vue';
 import TextareaField from '~/components/Form/TextareaField.vue';
 import ToggleField from '~/components/Form/ToggleField.vue';
+import SelectField from '~/components/Form/SelectField.vue';
 
 interface IndexPageData {
     input: string|null,
@@ -77,13 +90,15 @@ interface IndexPageData {
     checkbox1: {value: boolean, title: string},
     checkbox2: {value: boolean, title: string},
     radioButtons: Array<{value: string, title: string}>,
-    pickedRadioButton: string|null
+    pickedRadioButton: string|null,
+    select: {[x: string]: null|Array<{[x: string]: string}>}
 }
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
+        SelectField,
         ToggleField,
         TextareaField,
         InputField,
@@ -115,5 +130,14 @@ export default class IndexPage extends Vue implements IndexPageData {
     ];
 
     pickedRadioButton = null;
+
+    select = {
+        value: null,
+        options: [
+            { title: 'option 1', id: 'option:1' },
+            { title: 'option 2', id: 'option:2' },
+            { title: 'option 3', id: 'option:3' }
+        ]
+    };
 }
 </script>
