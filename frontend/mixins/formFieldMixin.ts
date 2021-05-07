@@ -52,7 +52,7 @@ export default class FormFieldMixin extends Vue implements FormFieldMixinData {
         };
     }
 
-    isFocus = false;
+    isFocus: FormFieldMixinData['isFocus'] = false;
 
     onFocus(): void {
         this.isFocus = true;
