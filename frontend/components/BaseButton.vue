@@ -1,19 +1,19 @@
 <template>
     <div
         :is="componentName"
-        class="base-button group inline-block relative select-none"
+        class="group inline-block relative select-none"
         v-bind="buttonAttrs"
         v-on="$listeners"
     >
-        <div class="base-button__content flex justify-center items-center relative z-10 overflow-hidden px-6 py-4 rounded-md text-white bg-gradient-to-r from-blue-700 to-blue-500 active:shadow-lg">
-            <div class="base-button__content-hover absolute inset-0 opacity-0 bg-blue-700 group-hover:opacity-100"></div>
-            <div class="base-button__content-wrapper flex items-center relative z-10 -mx-1.5">
+        <div class="flex justify-center items-center relative z-10 overflow-hidden px-6 py-4 rounded-md text-white bg-gradient-to-r from-blue-700 to-blue-500 active:shadow-lg">
+            <div class="absolute inset-0 opacity-0 bg-blue-700 group-hover:opacity-100"></div>
+            <div class="flex items-center relative z-10 -mx-1.5">
                 <template v-if="'side' in $slots">
-                    <div class="base-button__side flex-shrink-0 mx-1.5 fill-current text-white">
+                    <div class="flex-shrink-0 mx-1.5 fill-current text-white">
                         <slot name="side"></slot>
                     </div>
                 </template>
-                <div class="base-button__title flex items-center justify-center mx-1.5">
+                <div class="flex items-center justify-center mx-1.5">
                     <slot></slot>
                 </div>
             </div>
@@ -50,7 +50,7 @@ export default class BaseButton extends Vue {
     }
 
     /** Собрать аттрибуты компонента */
-    get buttonAttrs(): {[x: string]: string|boolean|{name: string}} {
+    get buttonAttrs(): {[x: string]: string|boolean|Location} {
         const attrs = {
             disabled: this.disabled
         };
