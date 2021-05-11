@@ -29,17 +29,24 @@
                 Go to error page
             </NuxtLink>
         </div>
+        <div class="flex flex-col items-start">
+            <BaseButton :href="{name: 'index'}">
+                кнопка
+            </BaseButton>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
+import BaseButton from '~/components/BaseButton.vue';
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
     // https://cln.sh/hfJ3RJoStaQN2bGS4Qd8
     components: {
+        BaseButton,
         TypescriptLearningTemplate
     }
 })
