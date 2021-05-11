@@ -7,8 +7,8 @@ interface FormFieldMixinData {
 
 @Component
 export default class FormFieldMixin extends Vue implements FormFieldMixinData {
-    @Prop({ type: Object, default: () => ({}) })
-    readonly inputListeners!: { [x: string]: ()=> void }|{};
+    @Prop({ type: Object })
+    readonly inputListeners!: { [x: string]: ()=> void };
 
     /** Название инпута (для label) */
     @Prop({ type: String, default: null })

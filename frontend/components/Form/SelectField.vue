@@ -49,7 +49,7 @@ export default class SelectField extends Vue {
     @Prop({ type: String, default: 'Выберите вариант' })
     readonly placeholder!: string;
 
-    get inputPropsCombined(): {[x: string]: any} {
+    get inputPropsCombined(): Record<string, string|boolean|null|unknown> {
         return {
             ...this.inputProps,
             ...this.$attrs
