@@ -1,6 +1,8 @@
 import { Module, VuexMutation, VuexModule, VuexAction } from 'nuxt-property-decorator';
-import { MetaPropertyCharset, MetaPropertyEquiv, MetaPropertyName, MetaPropertyMicrodata, MetaPropertyProperty } from 'vue-meta';
+import { MetaInfo } from 'vue-meta';
 import { PageData } from '~/models/Page';
+import seoMeta from '~/helpers/meta';
+
 
 interface PageState {
     // Поля стейта указываем с нижним подчёркиванием, чтобы названия не пересекались с экшенами и геттерами
@@ -74,16 +76,11 @@ export default class PageStore extends VuexModule {
         return '';
     }
 
-    get metaInfo(): (MetaPropertyCharset | MetaPropertyEquiv | MetaPropertyName | MetaPropertyMicrodata | MetaPropertyProperty)[] {
-        if (!this._data) {
-            return [];
-        }
-
-        return [
-            { hid: 'description', name: 'description', content: this._data.meta?.description || '' },
-            { hid: 'keywords', name: 'keywords', content: this._data.meta?.keywords || '' },
-            { hid: 'og:title', name: 'og:title', content: this._data.meta?.title || '' },
-            { hid: 'og:description', name: 'og:description', content: (this._data.meta?.description || '').replace(/<\/?[^>]+(>|$)/g, '') }
-        ];
+    get metaInfo(): MetaInfo {
+        return seoMeta({
+            title: this._data?.meta?.title || 'Тестовый заголовок',
+            description: this._data?.meta?.description || 'Тестовое описание',
+            keywords: this._data?.meta?.keywords || 'Тестовые, ключевые, слова'
+        });
     }
 }

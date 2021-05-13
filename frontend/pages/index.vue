@@ -34,7 +34,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator';
+import { MetaInfo } from 'vue-meta';
 import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.vue';
+import seoMeta, { IMetaData } from '~/helpers/meta';
 
 @Component({
     // Чтобы работали подсказки пропов в шаблоне, необходимо указывать импорт компонента
@@ -44,5 +46,19 @@ import TypescriptLearningTemplate from '~/components/TypescriptLearningTemplate.
     }
 })
 export default class IndexPage extends Vue {
+    head(): MetaInfo {
+        /** TODO: Тестируем, что будут перезаписаны только указанные мета-теги */
+        const test: IMetaData = {
+            title: 'Заголовок ⏤ переопределен на главной странице',
+            description: 'Описание ⏤ переопределено на главной странице',
+            extra: {
+                meta: [
+                    { hid: 'twitter:creator', name: 'twitter:creator', content: '@SamSmith' }
+                ]
+            }
+        };
+
+        return seoMeta(test);
+    }
 }
 </script>
