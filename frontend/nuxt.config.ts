@@ -40,13 +40,15 @@ const config: NuxtConfig = {
             // meta.push({ hid: 'og:image', name: 'og:image', content: `//${ this.context.req.headers.host }/social.jpg` });
         }
 
+        const meta = this.$store.getters['page/metaInfo'].meta ? this.$store.getters['page/metaInfo'].meta : [];
+        const title = this.$store.getters['page/metaInfo'].meta ? this.$store.getters['page/metaInfo'].title : 'App';
+
         return {
-            title: this.$store.getters['page/metaTitle'] || 'App',
+            title,
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                ...this.$store.getters['page/metaInfo']
-                // ...meta
+                ...meta
             ],
             link: [
                 { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
